@@ -275,7 +275,7 @@ public:
 
   StateType& operator[] (int index)
   {
-    assert (index >= 0 && index < Channels);
+    assert ((index >= 0) && (index < Channels));
     return m_state[index];
   }
 
