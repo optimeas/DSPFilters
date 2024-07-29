@@ -56,7 +56,7 @@ class SmoothedFilterDesign
 public:
   typedef FilterDesign <DesignClass, Channels, StateType> filter_type_t;
 
-  SmoothedFilterDesign (int transitionSamples)
+  explicit SmoothedFilterDesign (int transitionSamples)
     : m_transitionSamples (transitionSamples)
     , m_remainingSamples (-1) // first time flag
   {
@@ -114,18 +114,18 @@ public:
     }
   }
 
-  void process (int numSamples, float* const* arrayOfChannels)
+  void process (int numSamples, float* const* arrayOfChannels) override
   {
     processBlock (numSamples, arrayOfChannels);
   }
 
-  void process (int numSamples, double* const* arrayOfChannels)
+  void process (int numSamples, double* const* arrayOfChannels) override
   {
     processBlock (numSamples, arrayOfChannels);
   }
 
 protected:
-  void doSetParams (const Params& parameters)
+  void doSetParams (const Params& parameters) override
   {
     if (m_remainingSamples >= 0)
     {

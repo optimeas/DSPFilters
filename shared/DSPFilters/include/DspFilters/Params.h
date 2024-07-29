@@ -82,6 +82,11 @@ enum
 
 struct Params
 {
+  Params()
+  {
+    clear();
+  }
+
   void clear ()
   {
     for (int i = 0; i < maxParameters; ++i)
@@ -228,15 +233,15 @@ public:
   static ParamInfo defaultZeroRealParam ();
 
 private:
-  ParamID m_id;
-  const char* m_szLabel;
-  const char* m_szName;
-  double m_arg1;
-  double m_arg2;
-  double m_defaultNativeValue;
-  toControlValue_t m_toControlValue;
-  toNativeValue_t m_toNativeValue;
-  toString_t m_toString;
+  ParamID m_id{idSampleRate};
+  const char* m_szLabel{nullptr};
+  const char* m_szName{nullptr};
+  double m_arg1{0.0};
+  double m_arg2{0.0};
+  double m_defaultNativeValue{0.0};
+  toControlValue_t m_toControlValue{nullptr};
+  toNativeValue_t m_toNativeValue{nullptr};
+  toString_t m_toString{nullptr};
 };
 
 }

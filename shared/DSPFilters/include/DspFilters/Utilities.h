@@ -724,8 +724,8 @@ public:
   double m_env[Channels];
 
 protected:
-  double m_a;
-  double m_r;
+  double m_a{0.0};
+  double m_r{0.0};
 };
 
 //------------------------------------------------------------------------------

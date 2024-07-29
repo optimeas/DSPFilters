@@ -132,17 +132,17 @@ template <class DesignClass>
 class FilterDesignBase : public Filter
 {
 public:
-  Kind getKind () const
+  Kind getKind () const override
   {
     return m_design.getKind ();
   }
 
-  const std::string getName () const
+  const std::string getName () const override
   {
     return m_design.getName ();
   }
 
-  int getNumParams () const
+  int getNumParams () const override
   {
     return DesignClass::NumParams;
   }
@@ -152,7 +152,7 @@ public:
     return m_design.getDefaultParams();
   }
 
-  ParamInfo getParamInfo (int index) const
+  ParamInfo getParamInfo (int index) const override
   {
     switch (index)
     {
@@ -169,18 +169,18 @@ public:
     return ParamInfo();
   }
 
-  std::vector<PoleZeroPair> getPoleZeros() const
+  std::vector<PoleZeroPair> getPoleZeros() const override
   {
     return m_design.getPoleZeros();
   }
  
-  complex_t response (double normalizedFrequency) const
+  complex_t response (double normalizedFrequency) const override
   {
     return m_design.response (normalizedFrequency);
   }
 
 protected:
-  void doSetParams (const Params& parameters)
+  void doSetParams (const Params& parameters) override
   {
     m_design.setParams (parameters);
   }
@@ -201,23 +201,23 @@ public:
   {
   }
 
-  int getNumChannels()
+  int getNumChannels() override
   {
     return Channels;
   }
 
-  void reset ()
+  void reset () override
   {
     m_state.reset();
   }
 
-  void process (int numSamples, float* const* arrayOfChannels)
+  void process (int numSamples, float* const* arrayOfChannels) override
   {
     m_state.process (numSamples, arrayOfChannels,
                      FilterDesignBase<DesignClass>::m_design);
   }
 
-  void process (int numSamples, double* const* arrayOfChannels)
+  void process (int numSamples, double* const* arrayOfChannels) override
   {
     m_state.process (numSamples, arrayOfChannels,
                      FilterDesignBase<DesignClass>::m_design);
@@ -256,7 +256,7 @@ public:
   template <typename Sample>
   void process (int numSamples, Sample* const* arrayOfChannels)
   {
-    m_state.process (numSamples, arrayOfChannels, *((FilterClass*)this));
+    m_state.process (numSamples, arrayOfChannels, *(reinterpret_cast<FilterClass*>(this)));
   }
 
 protected:

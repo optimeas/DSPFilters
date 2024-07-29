@@ -42,6 +42,7 @@ namespace ChebyshevI {
 
 AnalogLowPass::AnalogLowPass ()
   : m_numPoles (-1)
+  , m_rippleDb (0.0)
 {
 }
 

@@ -69,6 +69,22 @@ double Solver::ellipticK (double k)
 AnalogLowPass::AnalogLowPass ()
   : m_numPoles (-1)
 {
+  for (size_t i=0; i<100; ++i) m_zeros[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_c1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_b1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_a1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_d1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_q1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_z1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_f1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_s1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_p[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_zw1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_zf1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_zq1[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_rootR[i] = 0.0;
+  for (size_t i=0; i<100; ++i) m_rootI[i] = 0.0;
+
   setNormal (0, 1);
 }
 

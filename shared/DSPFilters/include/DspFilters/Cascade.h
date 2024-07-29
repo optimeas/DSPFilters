@@ -74,7 +74,7 @@ public:
     }
 
   protected:
-    StateBase (StateType* stateArray)
+    explicit StateBase (StateType* stateArray)
       : m_stateArray (stateArray)
     {
     }

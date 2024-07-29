@@ -60,7 +60,7 @@ void AnalogLowPass::design (int numPoles,
 
     reset ();
 
-    const double eps = std::sqrt (1. / (std::exp (stopBandDb * 0.1 * doubleLn10) - 1));
+    const double eps = std::sqrt (1. / (std::expm1 (stopBandDb * 0.1 * doubleLn10)));
     const double v0 = asinh (1 / eps) / numPoles;
     const double sinh_v0 = -sinh (v0);
     const double cosh_v0 = cosh (v0);

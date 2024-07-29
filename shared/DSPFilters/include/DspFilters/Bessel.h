@@ -56,7 +56,7 @@ namespace Bessel {
 
 struct WorkspaceBase
 {
-  WorkspaceBase (RootFinderBase* rootsBase)
+  explicit WorkspaceBase (RootFinderBase* rootsBase)
     : roots (*rootsBase)
   {
   }
@@ -108,8 +108,8 @@ public:
                WorkspaceBase* w);
 
 private:
-  int m_numPoles;
-  double m_gainDb;
+  int m_numPoles{0};
+  double m_gainDb{0.0};
 };
 
 //------------------------------------------------------------------------------

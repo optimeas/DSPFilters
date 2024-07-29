@@ -196,7 +196,7 @@ void AllPass::setup (double sampleRate,
   double b0 =  1 - AL;
   double b1 = -2 * cs;
   double b2 =  1 + AL;
-  double a0 =  1 + AL;
+  double a0 =  b2;  //  1 + AL
   double a1 = -2 * cs;
   double a2 =  1 - AL;
   setCoefficients (a0, a1, a2, b0, b1, b2);
