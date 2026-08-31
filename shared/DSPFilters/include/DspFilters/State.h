@@ -91,6 +91,28 @@ public:
     return static_cast<Sample> (out);
   }
 
+  /*
+   * Preload the state with the steady state that belongs to a constant input of X_0, so that
+   * the section starts without the step a zeroed state would produce. Returns the steady
+   * output, which is the constant input of the following section of a cascade.
+   *
+   * With x[n] = X_0 for all n the difference equation settles on
+   *   y = (b0+b1+b2)*X_0 - (a1+a2)*y  =>  y = X_0 * (b0+b1+b2)/(1+a1+a2)
+   * A stable section cannot have 1+a1+a2 == 0, that would be a pole at z = 1. Filters without
+   * DC gain need no special case: their numerator sums up to zero, so y is zero as well.
+   */
+  double setSteadyState (const BiquadBase& s, const double X_0)
+  {
+    const double out = X_0 * (s.m_b0 + s.m_b1 + s.m_b2) / (1 + s.m_a1 + s.m_a2);
+
+    m_x1 = X_0;
+    m_x2 = X_0;
+    m_y1 = out;
+    m_y2 = out;
+
+    return out;
+  }
+
 protected:
   double m_x2; // x[n-2]
   double m_y2; // y[n-2]
@@ -135,6 +157,19 @@ public:
     m_v1 = w;
 
     return static_cast<Sample> (out);
+  }
+
+  /*
+   * Preload the state, see DirectFormI::setSteadyState(). With x[n] = X_0 for all n the
+   * intermediate value settles on
+   *   v = X_0 - (a1+a2)*v  =>  v = X_0/(1+a1+a2),  y = (b0+b1+b2)*v
+   */
+  double setSteadyState (const BiquadBase& s, const double X_0)
+  {
+    m_v1 = X_0 / (1 + s.m_a1 + s.m_a2);
+    m_v2 = m_v1;
+
+    return (s.m_b0 + s.m_b1 + s.m_b2) * m_v1;
   }
 
 private:
@@ -288,6 +323,13 @@ public:
       filter.process (numSamples, arrayOfChannels[i], m_state[i]);
   }
 
+  template <class Filter>
+  void setSteadyState (const double X_0, Filter& filter)
+  {
+    for (int i = 0; i < Channels; ++i)
+      m_state[i].setSteadyState (X_0, filter);
+  }
+
 private:
   StateType m_state[Channels];
 };
@@ -313,6 +355,12 @@ public:
                 FilterDesign& filter)
   {
     throw std::logic_error ("attempt to process empty ChannelState");
+  }
+
+  template <class FilterDesign>
+  void setSteadyState (const double, FilterDesign&)
+  {
+    throw std::logic_error ("attempt to preload empty ChannelState");
   }
 };
 

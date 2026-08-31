@@ -62,6 +62,14 @@ public:
     {
       return static_cast<Sample> (StateType::process1 (in, b, ac()));
     }
+
+    /*
+     * Preload the state, see DirectFormI::setSteadyState(). Returns the steady output.
+     */
+    double setSteadyState (const double X_0, const BiquadBase& b)
+    {
+      return StateType::setSteadyState (b, X_0);
+    }
   };
 
 public:

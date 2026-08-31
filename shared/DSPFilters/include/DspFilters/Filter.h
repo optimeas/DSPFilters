@@ -259,6 +259,16 @@ public:
     m_state.process (numSamples, arrayOfChannels, *(reinterpret_cast<FilterClass*>(this)));
   }
 
+  /*
+   * Preload the filter state with the steady state that belongs to a constant input of X_0.
+   * Starts a configured filter bumpless at X_0 instead of letting it swing up from zero.
+   * Requires a StateType that implements setSteadyState(), i.e. DirectFormI or DirectFormII.
+   */
+  void setSteadyState (double X_0)
+  {
+    m_state.setSteadyState (X_0, *(reinterpret_cast<FilterClass*>(this)));
+  }
+
 protected:
   ChannelsState <Channels,
                  typename FilterClass::template State <StateType> > m_state;
