@@ -73,6 +73,21 @@ public:
       return static_cast<Sample> (out);
     }
 
+    /*
+     * Preload all sections with the steady state that belongs to a constant input of X_0, so
+     * that the cascade starts without the step a zeroed state would produce. Each section is
+     * charged with the steady output of the section before it. Returns the steady output of
+     * the cascade.
+     */
+    double setSteadyState (double X_0, const Cascade& c)
+    {
+      StateType* state = m_stateArray;
+      Biquad const* stage = c.m_stageArray;
+      for (int i = c.m_numStages; --i >= 0; ++state, ++stage)
+        X_0 = state->setSteadyState (*stage, X_0);
+      return X_0;
+    }
+
   protected:
     explicit StateBase (StateType* stateArray)
       : m_stateArray (stateArray)
